@@ -1,0 +1,47 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/astro/BaseHead.astro";
+import Footer from "../../components/astro/Footer.astro";
+import FormattedDate from "../../components/astro/FormattedDate.astro";
+import Header from "../../components/vue/Header.vue";
+import InteractiveBlogList from "../../components/vue/blog/InteractiveBlogList.vue";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+
+const posts = (await getCollection("blog")).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+// Formateamos los Posts para inyectarlos sin problemas al Runtime de Vue
+const mappedPosts = posts.map((post) => ({
+	id: post.id,
+	title: post.data.title,
+	pubDate: post.data.pubDate.toLocaleDateString("en-US", {
+		year: "numeric",
+		month: "short",
+		day: "numeric",
+	}),
+	heroImage: post.data.heroImage ? { src: post.data.heroImage.src } : null,
+}));
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				width: 960px;
+			}
+		</style>
+	</head>
+	<body>
+		<Header client:load currentPath={Astro.url.pathname} />
+		<main>
+			<section>
+				<InteractiveBlogList client:load posts={mappedPosts} />
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

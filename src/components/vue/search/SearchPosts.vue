@@ -1,34 +1,16 @@
 <script setup lang="ts">
 const searchQuery = defineModel<string>();
+import "../../../styles/global.css";
 </script>
 
 <template>
-  <div class="search-container">
+  <div class="mb-6">
     <input 
       type="text" 
       v-model="searchQuery"
       placeholder="Search posts by title..." 
-      class="search-input"
+      class="w-full px-4 py-3 text-[1.1rem] border border-[rgb(var(--gray-light))] rounded-lg bg-white text-[rgb(var(--black))] transition-colors duration-200 ease-in-out focus:outline-none focus:border-[rgb(var(--accent))]"
     />
   </div>
 </template>
 
-<style scoped>
-.search-container {
-  margin-bottom: 1.5rem;
-}
-.search-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 1.1rem;
-  border: 1px solid rgb(var(--gray-light));
-  border-radius: 8px;
-  background-color: white;
-  color: rgb(var(--black));
-  transition: border-color 0.2s ease;
-}
-.search-input:focus {
-  outline: none;
-  border-color: rgb(var(--accent));
-}
-</style>

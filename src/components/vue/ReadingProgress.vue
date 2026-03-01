@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
+import "../../styles/global.css";
 
 const progress = ref(0);
 
@@ -24,24 +25,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="progress-container">
-    <div class="progress-bar" :style="{ width: `${progress}%` }"></div>
+  <div class="fixed top-0 left-0 w-full h-1 bg-transparent z-[2000]">
+    <div class="h-full bg-[var(--accent)] transition-[width] duration-100 ease-out" :style="{ width: `${progress}%` }"></div>
   </div>
 </template>
 
-<style scoped>
-.progress-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background-color: transparent;
-  z-index: 1000;
-}
-.progress-bar {
-  height: 100%;
-  background-color: var(--accent);
-  transition: width 0.1s ease-out;
-}
-</style>

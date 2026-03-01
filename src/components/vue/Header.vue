@@ -2,6 +2,8 @@
 import HeaderLink from './HeaderLink.vue';
 import ThemeToggle from './ThemeToggle.vue';
 import { SITE_TITLE } from '../../consts';
+import "../../styles/global.css";
+
 
 defineProps<{
   currentPath: string;
@@ -9,17 +11,17 @@ defineProps<{
 </script>
 
 <template>
-  <header>
-    <nav>
-      <h2><a href="/">{{ SITE_TITLE }}</a></h2>
-      <div class="internal-links">
+  <header class="m-0 px-4 bg-white shadow-[0_2px_8px_rgba(var(--black),0.05)]">
+    <nav class="flex items-center justify-between py-4">
+      <h2 class="m-0 text-base font-bold"><a href="/" class="no-underline text-[rgb(var(--black))]">{{ SITE_TITLE }}</a></h2>
+      <div class="internal-links flex gap-4">
         <HeaderLink href="/" :currentPath="currentPath">Home</HeaderLink>
         <HeaderLink href="/blog" :currentPath="currentPath">Blog</HeaderLink>
         <HeaderLink href="/about" :currentPath="currentPath">About</HeaderLink>
       </div>
-      <div class="social-links">
+      <div class="social-links hidden md:flex items-center gap-4">
         <ThemeToggle />
-        <a href="https://m.webtoo.ls/@astro" target="_blank">
+        <a href="https://m.webtoo.ls/@astro" target="_blank" class="flex">
           <span class="sr-only">Follow Astro on Mastodon</span>
           <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
             ><path
@@ -28,7 +30,7 @@ defineProps<{
             ></path></svg
           >
         </a>
-        <a href="https://twitter.com/astrodotbuild" target="_blank">
+        <a href="https://twitter.com/astrodotbuild" target="_blank" class="flex">
           <span class="sr-only">Follow Astro on Twitter</span>
           <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
             ><path
@@ -37,7 +39,7 @@ defineProps<{
             ></path></svg
           >
         </a>
-        <a href="https://github.com/withastro/astro" target="_blank">
+        <a href="https://github.com/withastro/astro" target="_blank" class="flex">
           <span class="sr-only">Go to Astro's GitHub repo</span>
           <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
             ><path
@@ -50,45 +52,3 @@ defineProps<{
     </nav>
   </header>
 </template>
-
-<style scoped>
-header {
-  margin: 0;
-  padding: 0 1em;
-  background: white;
-  box-shadow: 0 2px 8px rgba(var(--black), 5%);
-}
-h2 {
-  margin: 0;
-  font-size: 1em;
-}
-
-h2 a,
-h2 a.active {
-  text-decoration: none;
-}
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-nav a {
-  padding: 1em 0.5em;
-  color: var(--black);
-  border-bottom: 4px solid transparent;
-  text-decoration: none;
-}
-nav a.active {
-  text-decoration: none;
-  border-bottom-color: var(--accent);
-}
-.social-links,
-.social-links a {
-  display: flex;
-}
-@media (max-width: 720px) {
-  .social-links {
-    display: none;
-  }
-}
-</style>

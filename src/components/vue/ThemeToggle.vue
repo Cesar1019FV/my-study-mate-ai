@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useThemeStore } from '../../stores/theme';
 import { onMounted, ref } from 'vue';
+import "../../styles/global.css";
 
 const themeStore = ref<ReturnType<typeof useThemeStore>>();
 
@@ -11,25 +12,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <button @click="themeStore?.toggleTheme()" class="theme-toggle" aria-label="Toggle Theme">
+  <button
+    @click="themeStore?.toggleTheme()"
+    class="bg-none border-none text-2xl cursor-pointer p-2 flex items-center justify-center transition-transform duration-200 ease-in-out hover:scale-110"
+    aria-label="Toggle Theme"
+  >
     <span v-if="themeStore?.isDark">🌙</span>
     <span v-else>☀️</span>
   </button>
 </template>
 
-<style scoped>
-.theme-toggle {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease;
-}
-.theme-toggle:hover {
-  transform: scale(1.1);
-}
-</style>

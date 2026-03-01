@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import "../../styles/global.css";
 
 const props = defineProps<{
   href: string;
@@ -9,7 +10,6 @@ const props = defineProps<{
 
 const isActive = computed(() => {
   if (!props.currentPath) return false;
-  // Use a fallback for import.meta.env.BASE_URL if it's undefined
   const baseUrl = import.meta.env.BASE_URL || '/';
   const pathname = props.currentPath.replace(baseUrl, '');
   const subpath = pathname.match(/[^\/]+/g);
@@ -18,18 +18,8 @@ const isActive = computed(() => {
 </script>
 
 <template>
-  <a :href="href" :class="[props.class, { active: isActive }]">
+  <a :href="href" :class="[props.class, 'inline-block no-underline', { 'font-bolder underline': isActive }]">
     <slot />
   </a>
 </template>
 
-<style scoped>
-a {
-  display: inline-block;
-  text-decoration: none;
-}
-a.active {
-  font-weight: bolder;
-  text-decoration: underline;
-}
-</style>

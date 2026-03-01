@@ -16,71 +16,21 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} />
-		<style>
-			main {
-				width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-				margin-bottom: 2rem;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-				width: 100%;
-				height: auto;
-			}
-			.post-wrapper {
-				display: flex;
-				max-width: 1400px;
-				margin: 2rem auto 0 auto;
-				align-items: flex-start;
-				padding: 0 1.5rem;
-			}
-			@media (max-width: 1000px) {
-				.post-wrapper {
-					flex-direction: column;
-				}
-			}
-			.prose {
-				flex: 1;
-				min-width: 0;
-				max-width: 1000px;
-				margin: 0;
-				padding: 0;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-		</style>
 	</head>
 
 	<body>
 		<ReadingProgress client:idle />
 		<Header client:load currentPath={Astro.url.pathname} />
-		<main>
+		<main class="w-full m-0">
 			<article>
-				<div class="post-wrapper">
+				<div
+					class="flex flex-col lg:flex-row max-w-[1400px] mx-auto mt-8 items-start px-6"
+				>
 					<TableOfContents client:idle />
-					<div class="prose">
-						<div class="hero-image">
+					<div
+						class="prose flex-1 min-w-0 max-w-[1000px] m-0 p-0 text-[rgb(var(--gray-dark))]"
+					>
+						<div class="w-full mb-8">
 							{
 								heroImage && (
 									<Image
@@ -88,23 +38,24 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 										height={510}
 										src={heroImage}
 										alt=""
+										class="block mx-auto rounded-xl shadow-[0_2px_6px_rgba(var(--gray),25%),0_8px_24px_rgba(var(--gray),33%),0_16px_32px_rgba(var(--gray),33%)] w-full h-auto"
 									/>
 								)
 							}
 						</div>
-						<div class="title">
-							<div class="date">
+						<div class="mb-4 py-4 text-center leading-none">
+							<div class="mb-2 text-[rgb(var(--gray))]">
 								<FormattedDate date={pubDate} />
 								{
 									updatedDate && (
-										<div class="last-updated-on">
+										<div class="italic">
 											Last updated on{" "}
 											<FormattedDate date={updatedDate} />
 										</div>
 									)
 								}
 							</div>
-							<h1>{title}</h1>
+							<h1 class="m-0 mb-2">{title}</h1>
 							<hr />
 						</div>
 						<slot />

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
+import "../../../styles/global.css";
 
 interface Heading {
   id: string;
@@ -12,7 +13,6 @@ const activeId = ref<string>('');
 let observer: IntersectionObserver | null = null;
 
 onMounted(() => {
-  // Encontrar headers generados por Astro en .prose iterando dinámicamente
   const elements = document.querySelectorAll('.prose h2, .prose h3');
   
   elements.forEach((el) => {
@@ -26,7 +26,6 @@ onMounted(() => {
     });
   });
 
-  // Configuro la hidratación pasiva para que detecte el scroll visual
   observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -44,67 +43,34 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <aside class="toc-container" v-if="headings.length > 0">
-    <h3 class="toc-title">Tabla de Contenidos</h3>
+  <aside 
+    v-if="headings.length > 0"
+    class="toc-container p-6 bg-[rgb(var(--gray-light),0.3)] rounded-xl sticky top-8 min-w-[220px] max-w-[260px] lg:relative lg:top-0 lg:mr-0 lg:mb-8 lg:max-w-full"
+  >
+    <h3 class="text-xl mt-0 mb-4">Tabla de Contenidos</h3>
     <nav>
-      <ul>
-        <li v-for="h in headings" :key="h.id" :class="[`level-${h.level}`, { active: activeId === h.id }]">
-          <a :href="`#${h.id}`">{{ h.text }}</a>
+      <ul class="list-none p-0 m-0">
+        <li 
+          v-for="h in headings" 
+          :key="h.id" 
+          :class="[
+            'mb-2 leading-[1.4]',
+            h.level === 3 ? 'pl-4 text-[0.9rem]' : 'text-[0.95rem]',
+            { 'active font-bold': activeId === h.id }
+          ]"
+        >
+          <a 
+            :href="`#${h.id}`"
+            :class="[
+              'no-underline transition-colors duration-200',
+              activeId === h.id ? 'text-[var(--accent)]' : 'text-[rgb(var(--gray))] hover:text-[var(--accent)]'
+            ]"
+          >
+            {{ h.text }}
+          </a>
         </li>
       </ul>
     </nav>
   </aside>
 </template>
 
-<style scoped>
-.toc-container {
-  padding: 1.5rem;
-  background-color: rgb(var(--gray-light), 0.3);
-  border-radius: 12px;
-  position: sticky;
-  top: 2rem;
-  min-width: 220px;
-  max-width: 260px;
-  margin-right: 6rem;
-}
-.toc-title {
-  font-size: 1.2rem;
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-nav li {
-  margin-bottom: 0.5rem;
-  line-height: 1.4;
-}
-nav li a {
-  color: rgb(var(--gray));
-  text-decoration: none;
-  transition: color 0.2s;
-  font-size: 0.95rem;
-}
-nav li a:hover {
-  color: var(--accent);
-}
-.level-3 {
-  padding-left: 1rem;
-  font-size: 0.9rem;
-}
-nav li.active a {
-  color: var(--accent);
-  font-weight: bold;
-}
-
-@media (max-width: 1000px) {
-  .toc-container {
-    position: static;
-    margin-right: 0;
-    margin-bottom: 2rem;
-    max-width: 100%;
-  }
-}
-</style>

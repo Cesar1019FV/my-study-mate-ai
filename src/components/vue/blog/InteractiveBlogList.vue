@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import "../../../styles/global.css";
 import SearchPosts from '../search/SearchPosts.vue';
 
 export interface Post {
@@ -31,109 +32,34 @@ const filteredPosts = computed(() => {
   <div class="interactive-blog-list">
     <SearchPosts v-model="searchQuery" />
 
-    <ul>
-      <li v-for="post in filteredPosts" :key="post.id">
-        <a :href="`/blog/${post.id}/`">
-          <img v-if="post.heroImage" width="720" height="360" :src="post.heroImage.src" alt="" />
-          <h4 class="title">{{ post.title }}</h4>
-          <p class="date">
+    <ul class="flex flex-wrap gap-8 list-none m-0 p-0 md:gap-2">
+      <li 
+        v-for="post in filteredPosts" 
+        :key="post.id"
+        class="group w-[calc(50%-1rem)] first:w-full first:mb-4 first:text-center md:w-full md:first:mb-0 md:text-center"
+      >
+        <a :href="`/blog/${post.id}/`" class="block no-underline transition-all duration-200 ease-in-out group-hover:no-underline">
+          <img 
+            v-if="post.heroImage" 
+            width="720" 
+            height="360" 
+            :src="post.heroImage.src" 
+            alt="" 
+            class="mb-2 rounded-xl group-first:w-full group-hover:shadow-[0_2px_6px_rgba(var(--gray),0.25),0_8px_24px_rgba(var(--gray),0.33),0_16px_32px_rgba(var(--gray),0.33)]"
+          />
+          <h4 class="m-0 text-[rgb(var(--black))] leading-none group-first:text-[2.369rem] md:group-first:text-[1.563em] group-hover:text-[rgb(var(--accent))]">
+            {{ post.title }}
+          </h4>
+          <p class="m-0 text-[rgb(var(--gray))] group-hover:text-[rgb(var(--accent))]">
             <time :datetime="post.pubDate">{{ post.pubDate }}</time>
           </p>
         </a>
       </li>
     </ul>
 
-    <div v-if="filteredPosts.length === 0" class="no-results">
+    <div v-if="filteredPosts.length === 0" class="text-center p-12 text-[rgb(var(--gray))] bg-[rgb(var(--gray-light),0.2)] rounded-xl">
         <p>No posts found matching your search "{{ searchQuery }}".</p>
     </div>
   </div>
 </template>
 
-<style scoped>
-ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-ul li {
-  width: calc(50% - 1rem);
-}
-ul li * {
-  text-decoration: none;
-  transition: 0.2s ease;
-}
-ul li:first-child {
-  width: 100%;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-ul li:first-child img {
-  width: 100%;
-}
-ul li:first-child .title {
-  font-size: 2.369rem;
-}
-ul li img {
-  margin-bottom: 0.5rem;
-  border-radius: 12px;
-}
-ul li a {
-  display: block;
-}
-.title {
-  margin: 0;
-  color: rgb(var(--black));
-  line-height: 1;
-}
-.date {
-  margin: 0;
-  color: rgb(var(--gray));
-}
-ul li a:hover h4,
-ul li a:hover .date {
-  color: rgb(var(--accent));
-}
-ul a:hover img {
-  box-shadow: var(--box-shadow);
-}
-@media (max-width: 720px) {
-  ul {
-    gap: 0.5em;
-  }
-  ul li {
-    width: 100%;
-    text-align: center;
-  }
-  ul li:first-child {
-    margin-bottom: 0;
-  }
-  ul li:first-child .title {
-    font-size: 1.563em;
-  }
-}
-
-.no-results {
-    text-align: center;
-    padding: 3rem;
-    color: rgb(var(--gray));
-    background: rgb(var(--gray-light), 0.2);
-    border-radius: 12px;
-}
-.clear-btn {
-    margin-top: 1rem;
-    padding: 0.5rem 1.5rem;
-    background-color: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: opacity 0.2s;
-}
-.clear-btn:hover {
-    opacity: 0.8;
-}
-</style>

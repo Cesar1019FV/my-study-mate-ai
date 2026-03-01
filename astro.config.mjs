@@ -6,12 +6,12 @@ import { defineConfig } from 'astro/config';
 
 import vue from '@astrojs/vue';
 
-import tailwindcss from '@tailwindcss/vite';
+import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://example.com',
-  integrations: [mdx(), sitemap(), vue({ appEntry: '/src/main.ts' })],
+  integrations: [mdx(), sitemap(), vue()],
 
   vite: {
     plugins: [tailwindcss()],
